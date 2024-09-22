@@ -20,7 +20,7 @@
 (defparameter xs (alexandria:iota 10000 :start 1 :step 1))
 (time (defparameter ys (mapcar #'collatz-length xs)))
 
-;;
+
 ;; make plot
 ;;
 (vgplot:plot xs ys "o;;")
