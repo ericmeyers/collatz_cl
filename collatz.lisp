@@ -1,4 +1,5 @@
 (ql:quickload :alexandria)
+(ql:quickload :vgplot)
 
 ;;
 ;; just make the sequence for now
@@ -20,5 +21,6 @@
 (time (defparameter ys (mapcar #'collatz-length xs)))
 
 ;;
-;; TODO make plot
+;; make plot
 ;;
+(vgplot:plot xs ys "o;;")
