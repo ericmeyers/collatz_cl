@@ -18,3 +18,7 @@
 ;;
 (defparameter xs (alexandria:iota 10000 :start 1 :step 1))
 (time (defparameter ys (mapcar #'collatz-length xs)))
+
+;;
+;; TODO make plot
+;;
