@@ -1,5 +1,5 @@
 (ql:quickload :alexandria)
-(ql:quickload :vgplot)
+;(ql:quickload :vgplot)
 
 ;;
 ;; just make the sequence for now
@@ -16,11 +16,22 @@
 
 
 ;;
+;; quick length
+;; give function type runs faster
+(declaim (ftype (function (fixnum) (unsigned-byte 32)) collatz-length-brian))
+(defun collatz-length-brian (n)
+	  (cond
+	    ((= n 1) 1)
+	    ((= (mod n 2) 0) (+ 1 (collatz-length-brian (/ n 2))))
+	    (t (+ 1 (collatz-length-brian (+ 1 (* n 3)))))))
+
+
 ;;
-(defparameter xs (alexandria:iota 10000 :start 1 :step 1))
-(time (defparameter ys (mapcar #'collatz-length xs)))
+;;
+(defparameter xs (alexandria:iota 5000000 :start 1 :step 1))
+(time (defparameter ys (mapcar #'collatz-length-brian xs)))
 
 
 ;; make plot
 ;;
-(vgplot:plot xs ys "o;;")
+;(vgplot:plot xs ys "o;;")
