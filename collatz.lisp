@@ -1,6 +1,8 @@
 (ql:quickload :alexandria)
 ;(ql:quickload :vgplot)
-
+(ql:quickload :py4cl)
+(py4cl:import-module "matplotlib.pyplot" :as "plt")
+;;(py4cl:import-module "numpy" :as "np")
 ;;
 ;; just make the sequence for now
 (defun collatz-conjecture (n)
@@ -28,10 +30,14 @@
 
 ;;
 ;;
-(defparameter xs (alexandria:iota 5000000 :start 1 :step 1))
-(time (defparameter ys (mapcar #'collatz-length-brian xs)))
+(let*
+ ((xs (alexandria:iota 5000000 :start 1 :step 1))
+  (ys (mapcar #'collatz-length-brian xs)))
 
 
 ;; make plot
 ;;
-;(vgplot:plot xs ys "o;;")
+
+ (plt:scatter xs ys :s 1)
+ (plt:grid :which "both" :axis "both" :color "0.8" :linestyle "--")
+ (plt:show))
