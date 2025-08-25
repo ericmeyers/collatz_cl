@@ -1,10 +1,12 @@
 ;; got rid of quicklisp calls. moved to asdf
 ;;(ql:quickload :alexandria)
 ;;(ql:quickload :vgplot)
+;;(py4cl2:defpymodule "matplotlib.pyplot" t  :lisp-package "plt")
+
 
 
 (in-package :collatz_cl)
-(py4cl:import-module "matplotlib.pyplot" :as "plt")
+
 ;;
 ;; just make the sequence for now
 (defun collatz-conjecture (n)
@@ -44,17 +46,36 @@
        (result nil (push item result)))
       ((= i n) (nreverse result))))
 
+(defparameter xs (alexandria:iota 100000  :start 1 :step 1))
+(defparameter ys (time (mapcar #'collatz-length-brian xs)))
+(defparameter df (ls-user:plist-df `(:xx ,(coerce xs '(vector fixnum)) :yy ,(coerce ys '(vector fixnum)))))
 
 
 (defun doit ()
- (let*
-   ((xs (alexandria::iota 1000001  :start 1 :step 1))
-    (ys (time (mapcar #'collatz-length-brian xs))))
+ (let* ()
+;;   ((xs (alexandria:iota 11  :start 1 :step 1))
+;;    (ys (time (mapcar #'collatz-length-brian xs)))
+;;    (df (ls-user:plist-df `(:xx ,xs :yy ,ys))))
 ;;    (ys (time (mapcar '1+ xs))))
 ;; make plot
 ;;
-    (plt::scatter xs ys :s 1)
-    (plt::grid :which "both" :axis "both" :color "0.8" :linestyle "--")
-    (plt::show)))
-;;   ys
+
+  (plot:plot
+    (vega:defplot scatterplot
+    `(:title "Collatz Fun From Common Lisp"
+      :data (:values ,df)
+      :mark :point
+      :width 800
+      :height 600
+      :encoding (:x (:field :xx :type "quantitative")
+                 :y (:field :yy :type "quantitative")
+                 :color (:field "item" :type "nominal" :legend nil))
+      :selection (:brush (:type "interval" :bind "scales" )))))
+;    (vgplot:xlabel "Value")
+;;    (vgplot:ylabel "Steps")
+;;    (vgplot:plot xs ys "ko;Collatz Fun in Common Lisp;")
+;;    (plt::scatter xs ys :s 1)
+;;    (plt::grid :which "both" :axis "both" :color "0.8" :linestyle "--")
+;;    (plt::show)
+    ))
 ;;))

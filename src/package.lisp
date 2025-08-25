@@ -1,5 +1,7 @@
 (defpackage #:collatz_cl
-  (:use #:cl))
+  (:use #:cl)
+  (:export #:doit))
+
 
 
 ;;(defpackage #:name
